@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CONSTANTINOPLE — THE LAST CITY</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#020308;
+    color:#fff;
+    font-family:Georgia,"Times New Roman",serif;
+}
+
+button{
+    font:inherit;
+}
+
+/* =========================================================
+   WORLD
+========================================================= */
+
+#world{
+    position:relative;
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+
+    --mx:0;
+    --my:0;
+    --zoom:1;
+
+    --sky1:#101d38;
+    --sky2:#375879;
+    --sky3:#c17b5d;
+    --sky4:#111018;
+
+    background:
+        linear-gradient(
+            to bottom,
+            var(--sky1) 0%,
+            var(--sky2) 38%,
+            var(--sky3) 68%,
+            var(--sky4) 100%
+        );
+
+    transition:
+        background 2s ease,
+        filter 1s ease;
+}
+
+#world.dawn{
+    --sky1:#20213f;
+    --sky2:#70536c;
+    --sky3:#df9a68;
+    --sky4:#21151d;
+}
+
+#world.day{
+    --sky1:#2381b7;
+    --sky2:#62b9d4;
+    --sky3:#d7b278;
+    --sky4:#28201d;
+}
+
+#world.sunset{
+    --sky1:#21152e;
+    --sky2:#783c5b;
+    --sky3:#df774a;
+    --sky4:#160d15;
+}
+
+#world.night{
+    --sky1:#02040b;
+    --sky2:#07152b;
+    --sky3:#121b2b;
+    --sky4:#030409;
+}
+
+/* =========================================================
+   CAMERA
+========================================================= */
+
+#camera{
+    position:absolute;
+    inset:-5%;
+
+    transform:
+        translate3d(
+            calc(var(--mx) * -28px),
+            calc(var(--my) * -18px),
+            0
+        )
+        scale(var(--zoom));
+
+    transform-origin:center;
+
+    transition:transform .12s ease-out;
+}
+
+/* =========================================================
+   SUN
+========================================================= */
+
+.sun{
+    position:absolute;
+
+    width:145px;
+    height:145px;
+
+    left:72%;
+    top:17%;
+
+    border-radius:50%;
+
+    background:#fff0ad;
+
+    box-shadow:
+        0 0 30px #ffd56b,
+        0 0 90px #ffb34d,
+        0 0 190px rgba(255,145,50,.45);
+
+    transition:
+        opacity 2s,
+        transform 2s;
+}
+
+#world.night .sun{
+    opacity:0;
+    transform:translateY(120px);
+}
+
+/* =========================================================
+   MOON
+========================================================= */
+
+.moon{
+    position:absolute;
+
+    width:92px;
+    height:92px;
+
+    right:13%;
+    top:13%;
+
+    border-radius:50%;
+
+    background:#f4f1d4;
+
+    box-shadow:
+        0 0 30px rgba(255,255,220,.7),
+        0 0 100px rgba(255,255,220,.3);
+
+    opacity:0;
+
+    transition:opacity 2s;
+}
+
+.moon:after{
+    content:"";
+
+    position:absolute;
+
+    width:92px;
+    height:92px;
+
+    left:-27px;
+    top:-10px;
+
+    border-radius:50%;
+
+    background:var(--sky1);
+}
+
+#world.night .moon{
+    opacity:1;
+}
+
+/* =========================================================
+   STARS
+========================================================= */
+
+#stars{
+    position:absolute;
+    inset:0;
+
+    pointer-events:none;
+}
+
+.star{
+    position:absolute;
+
+    width:2px;
+    height:2px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    opacity:0;
+
+    animation:
+        twinkle 3s ease-in-out infinite alternate;
+}
+
+#world.night .star{
+    opacity:.85;
+}
+
+@keyframes twinkle{
+    from{
+        transform:scale(.5);
+        opacity:.2;
+    }
+
+    to{
+        transform:scale(1.7);
+        opacity:1;
+    }
+}
+
+/* =========================================================
+   CLOUDS
+========================================================= */
+
+.cloud{
+    position:absolute;
+
+    width:250px;
+    height:55px;
+
+    border-radius:100px;
+
+    background:rgba(255,255,255,.10);
+
+    filter:blur(6px);
+
+    animation:
+        cloudMove 75s linear infinite;
+}
+
+.cloud:before,
+.cloud:after{
+    content:"";
+
+    position:absolute;
+
+    border-radius:50%;
+
+    background:inherit;
+}
+
+.cloud:before{
+    width:105px;
+    height:105px;
+
+    left:40px;
+    bottom:5px;
+}
+
+.cloud:after{
+    width:125px;
+    height:125px;
+
+    right:20px;
+    bottom:0;
+}
+
+.cloud1{
+    top:18%;
+    left:-300px;
+}
+
+.cloud2{
+    top:32%;
+    left:-600px;
+
+    transform:scale(.7);
+
+    animation-duration:100s;
+}
+
+@keyframes cloudMove{
+    from{
+        left:-350px;
+    }
+
+    to{
+        left:120%;
+    }
+}
+
+/* =========================================================
+   BIRDS
+========================================================= */
+
+.bird{
+    position:absolute;
+
+    width:22px;
+    height:10px;
+
+    border-top:2px solid rgba(0,0,0,.65);
+
+    border-radius:50%;
+
+    animation:
+        birdFly 25s linear infinite;
+}
+
+.bird:after{
+    content:"";
+
+    position:absolute;
+
+    width:22px;
+    height:10px;
+
+    left:9px;
+    top:-2px;
+
+    border-top:2px solid rgba(0,0,0,.65);
+
+    border-radius:50%;
+}
+
+.bird1{
+    top:25%;
+    left:-60px;
+}
+
+.bird2{
+    top:34%;
+    left:-180px;
+    animation-delay:7s;
+}
+
+.bird3{
+    top:20%;
+    left:-350px;
+    animation-delay:13s;
+}
+
+@keyframes birdFly{
+    to{
+        left:120%;
+        transform:translateY(-35px);
+    }
+}
+
+/* =========================================================
+   DISTANT CITY
+========================================================= */
+
+.distantCity{
+    position:absolute;
+
+    bottom:30%;
+
+    width:100%;
+    height:20%;
+
+    display:flex;
+
+    align-items:flex-end;
+
+    gap:8px;
+
+    padding:0 2%;
+
+    opacity:.75;
+
+    transform:
+        translateX(
+            calc(var(--mx) * 18px)
+        );
+}
+
+.distBuilding{
+    position:relative;
+
+    width:45px;
+
+    background:#17161c;
+}
+
+.distBuilding:nth-child(1){height:55%}
+.distBuilding:nth-child(2){height:75%}
+.distBuilding:nth-child(3){height:45%}
+.distBuilding:nth-child(4){height:82%}
+.distBuilding:nth-child(5){height:60%}
+.distBuilding:nth-child(6){height:70%}
+.distBuilding:nth-child(7){height:50%}
+.distBuilding:nth-child(8){height:78%}
+.distBuilding:nth-child(9){height:62%}
+.distBuilding:nth-child(10){height:88%}
+.distBuilding:nth-child(11){height:48%}
+.distBuilding:nth-child(12){height:68%}
+
+/* =========================================================
+   HAGIA SOPHIA
+========================================================= */
+
+.hagia{
+    position:absolute;
+
+    left:51%;
+    bottom:27%;
+
+    width:390px;
+    height:310px;
+
+    transform:
+        translateX(-50%)
+        translateX(
+            calc(var(--mx) * 25px)
+        );
+
+    z-index:20;
+
+    cursor:pointer;
+
+    transition:
+        filter .3s,
+        transform .3s;
+}
+
+.hagia:hover{
+    filter:brightness(1.3);
+}
+
+.hagiaMain{
+    position:absolute;
+
+    bottom:0;
+    left:42px;
+
+    width:305px;
+    height:165px;
+
+    background:#27232a;
+
+    border-radius:
+        150px 150px 0 0;
+}
+
+.dome{
+    position:absolute;
+
+    left:84px;
+    top:33px;
+
+    width:225px;
+    height:120px;
+
+    border-radius:
+        120px 120px 0 0;
+
+    background:#332e35;
+}
+
+.domeRing{
+    position:absolute;
+
+    left:103px;
+    top:115px;
+
+    width:188px;
+    height:30px;
+
+    border-radius:50%;
+
+    border:
+        5px solid #28242b;
+
+    z-index:4;
+}
+
+.hagiaCross{
+    position:absolute;
+
+    left:186px;
+    top:-22px;
+
+    font-size:28px;
+
+    color:#bcae8b;
+}
+
+.hagiaTower{
+    position:absolute;
+
+    bottom:0;
+
+    width:34px;
+    height:215px;
+
+    background:#201d24;
+
+    border:
+        4px solid #111016;
+}
+
+.ht1{left:15px}
+.ht2{right:15px}
+
+.ht3{
+    left:66px;
+    height:170px;
+}
+
+.ht4{
+    right:66px;
+    height:170px;
+}
+
+.hagiaWindow{
+    position:absolute;
+
+    width:9px;
+    height:17px;
+
+    left:137px;
+    bottom:48px;
+
+    background:#efb65d;
+
+    box-shadow:
+        25px 0 #efb65d,
+        50px 0 #efb65d,
+        -25px 0 #efb65d;
+}
+
+/* =========================================================
+   WALL
+========================================================= */
+
+.wall{
+    position:absolute;
+
+    left:-2%;
+    bottom:18%;
+
+    width:104%;
+    height:145px;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #29252d 0 46px,
+            #1b181f 46px 53px
+        );
+
+    border-top:
+        8px solid #39343c;
+
+    border-bottom:
+        9px solid #0e0d12;
+
+    z-index:30;
+}
+
+.wallGate{
+    position:absolute;
+
+    left:48%;
+
+    bottom:-1px;
+
+    width:130px;
+    height:100px;
+
+    background:#08070b;
+
+    border-radius:
+        70px 70px 0 0;
+
+    border:
+        7px solid #111017;
+}
+
+.wallGate:before{
+    content:"";
+
+    position:absolute;
+
+    width:80px;
+    height:80px;
+
+    left:18px;
+    top:12px;
+
+    border-radius:
+        50% 50% 0 0;
+
+    border:
+        4px solid rgba(255,255,255,.06);
+}
+
+.wallTower{
+    position:absolute;
+
+    bottom:-5px;
+
+    width:105px;
+    height:210px;
+
+    background:#29252c;
+
+    border:
+        5px solid #141219;
+
+    border-radius:
+        55px 55px 0 0;
+}
+
+.wallTower:before{
+    content:"";
+
+    position:absolute;
+
+    left:-11px;
+    top:-15px;
+
+    width:112px;
+    height:32px;
+
+    background:#37323a;
+
+    border-radius:5px;
+}
+
+.towerA{left:6%}
+.towerB{left:22%}
+.towerC{left:37%}
+.towerD{right:36%}
+.towerE{right:20%}
+.towerF{right:5%}
+
+/* =========================================================
+   TORCHES
+========================================================= */
+
+.torch{
+    position:absolute;
+
+    width:11px;
+    height:20px;
+
+    border-radius:
+        50% 50% 45% 45%;
+
+    background:#ff8c32;
+
+    box-shadow:
+        0 0 12px #ff8c32,
+        0 0 35px rgba(255,120,30,.8);
+
+    animation:
+        flame .22s infinite alternate;
+
+    z-index:40;
+}
+
+.torch:after{
+    content:"";
+
+    position:absolute;
+
+    width:4px;
+    height:30px;
+
+    left:3px;
+    top:16px;
+
+    background:#161217;
+}
+
+@keyframes flame{
+    to{
+        transform:
+            scale(1.2)
+            rotate(4deg);
+
+        filter:brightness(1.4);
+    }
+}
+
+/* =========================================================
+   GOLDEN HORN
+========================================================= */
+
+.sea{
+    position:absolute;
+
+    bottom:0;
+    left:0;
+
+    width:100%;
+    height:29%;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #18324a,
+            #0a1725 65%,
+            #040a12
+        );
+
+    z-index:10;
+}
+
+.wave{
+    position:absolute;
+
+    height:3px;
+    width:210px;
+
+    border-radius:50%;
+
+    background:
+        rgba(130,190,210,.20);
+
+    animation:
+        waveMove 7s linear infinite;
+}
+
+@keyframes waveMove{
+    from{
+        transform:translateX(-300px);
+    }
+
+    to{
+        transform:translateX(120vw);
+    }
+}
+
+/* =========================================================
+   SHIPS
+========================================================= */
+
+.ship{
+    position:absolute;
+
+    width:125px;
+    height:40px;
+
+    bottom:16%;
+    left:-200px;
+
+    z-index:22;
+
+    animation:
+        sail 34s linear infinite;
+}
+
+.shipHull{
+    position:absolute;
+
+    bottom:0;
+
+    width:110px;
+    height:22px;
+
+    background:#0b0a0e;
+
+    border-radius:
+        0 0 60px 60px;
+}
+
+.shipMast{
+    position:absolute;
+
+    left:53px;
+    bottom:18px;
+
+    width:4px;
+    height:90px;
+
+    background:#141116;
+}
+
+.shipSail{
+    position:absolute;
+
+    left:56px;
+    bottom:39px;
+
+    width:65px;
+    height:72px;
+
+    background:#d3c39d;
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 35%,
+            0 100%
+        );
+}
+
+.ship2{
+    bottom:21%;
+
+    transform:scale(.7);
+
+    animation-duration:45s;
+    animation-delay:10s;
+}
+
+@keyframes sail{
+    from{
+        left:-200px;
+    }
+
+    to{
+        left:120%;
+    }
+}
+
+/* =========================================================
+   OTTOMAN SHIPS — SIEGE
+========================================================= */
+
+.ottomanShip{
+    position:absolute;
+
+    width:150px;
+    height:45px;
+
+    bottom:25%;
+    left:120%;
+
+    opacity:0;
+
+    z-index:23;
+
+    animation:
+        enemyShip 38s linear infinite;
+}
+
+#world.siege .ottomanShip{
+    opacity:1;
+}
+
+.ottomanHull{
+    position:absolute;
+
+    bottom:0;
+
+    width:140px;
+    height:25px;
+
+    background:#09080c;
+
+    border-radius:
+        0 0 70px 70px;
+}
+
+.ottomanMast{
+    position:absolute;
+
+    left:65px;
+    bottom:18px;
+
+    width:4px;
+    height:100px;
+
+    background:#121016;
+}
+
+.ottomanFlag{
+    position:absolute;
+
+    left:69px;
+    bottom:91px;
+
+    width:55px;
+    height:28px;
+
+    background:#5d1717;
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 15%,
+            80% 100%,
+            0 80%
+        );
+}
+
+@keyframes enemyShip{
+    from{
+        left:120%;
+    }
+
+    to{
+        left:-220px;
+    }
+}
+
+/* =========================================================
+   FOG
+========================================================= */
+
+.fog{
+    position:absolute;
+
+    left:-10%;
+    bottom:16%;
+
+    width:120%;
+    height:32%;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(220,220,220,.15),
+            transparent
+        );
+
+    filter:blur(18px);
+
+    z-index:45;
+
+    pointer-events:none;
+
+    animation:
+        fogMove 20s ease-in-out infinite alternate;
+}
+
+@keyframes fogMove{
+    to{
+        transform:translateX(70px);
+    }
+}
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+#particles{
+    position:absolute;
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:50;
+}
+
+.particle{
+    position:absolute;
+
+    width:3px;
+    height:3px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.55);
+
+    animation:
+        particleFloat linear infinite;
+}
+
+@keyframes particleFloat{
+    from{
+        transform:
+            translateY(30px)
+            translateX(0);
+    }
+
+    to{
+        transform:
+            translateY(-120px)
+            translateX(50px);
+    }
+}
+
+/* =========================================================
+   SIEGE
+========================================================= */
+
+#siegeOverlay{
+    position:absolute;
+
+    inset:0;
+
+    z-index:70;
+
+    pointer-events:none;
+
+    opacity:0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            transparent 20%,
+            rgba(80,0,0,.22) 65%,
+            rgba(0,0,0,.75)
+        );
+
+    transition:opacity 1s;
+}
+
+#world.siege #siegeOverlay{
+    opacity:1;
+}
+
+.siegeFire{
+    position:absolute;
+
+    width:25px;
+    height:25px;
+
+    border-radius:50%;
+
+    background:#ff4a1e;
+
+    box-shadow:
+        0 0 20px #ff4a1e,
+        0 0 65px rgba(255,80,20,.8);
+
+    opacity:0;
+
+    animation:
+        siegeFlame .3s infinite alternate;
+}
+
+#world.siege .siegeFire{
+    opacity:1;
+}
+
+@keyframes siegeFlame{
+    to{
+        transform:
+            scale(1.5)
+            translateY(-6px);
+
+        filter:brightness(1.5);
+    }
+}
+
+.smoke{
+    position:absolute;
+
+    width:70px;
+    height:70px;
+
+    border-radius:50%;
+
+    background:
+        rgba(20,20,20,.25);
+
+    filter:blur(12px);
+
+    opacity:0;
+}
+
+#world.siege .smoke{
+    opacity:1;
+
+    animation:
+        smokeRise 5s ease-out infinite;
+}
+
+@keyframes smokeRise{
+    from{
+        transform:
+            translateY(20px)
+            scale(.5);
+
+        opacity:.1;
+    }
+
+    to{
+        transform:
+            translateY(-180px)
+            scale(2);
+
+        opacity:0;
+    }
+}
+
+/* =========================================================
+   HUD
+========================================================= */
+
+.hud{
+    position:absolute;
+
+    inset:0;
+
+    z-index:100;
+
+    pointer-events:none;
+}
+
+.title{
+    position:absolute;
+
+    top:7%;
+    left:5%;
+
+    text-shadow:
+        0 3px 15px #000,
+        0 0 35px rgba(0,0,0,.8);
+}
+
+.title small{
+    display:block;
+
+    letter-spacing:8px;
+
+    font-size:11px;
+
+    opacity:.65;
+}
+
+.title h1{
+    margin-top:5px;
+
+    font-size:
+        clamp(38px,7vw,88px);
+
+    letter-spacing:8px;
+
+    line-height:.95;
+}
+
+.title p{
+    margin-top:12px;
+
+    letter-spacing:5px;
+
+    opacity:.7;
+}
+
+/* =========================================================
+   TOP RIGHT
+========================================================= */
+
+.controls{
+    position:absolute;
+
+    top:5%;
+    right:4%;
+
+    display:flex;
+
+    gap:7px;
+
+    pointer-events:auto;
+
+    flex-wrap:wrap;
+
+    justify-content:flex-end;
+
+    max-width:460px;
+}
+
+.btn{
+    padding:9px 12px;
+
+    color:#fff;
+
+    background:
+        rgba(4,7,13,.58);
+
+    border:
+        1px solid rgba(255,255,255,.22);
+
+    backdrop-filter:
+        blur(9px);
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.btn:hover{
+    background:
+        rgba(255,255,255,.12);
+
+    transform:
+        translateY(-2px);
+}
+
+/* =========================================================
+   TIMELINE
+========================================================= */
+
+.timeline{
+    position:absolute;
+
+    left:5%;
+    bottom:5%;
+
+    display:flex;
+
+    gap:8px;
+
+    pointer-events:auto;
+}
+
+.era{
+    padding:8px 13px;
+
+    background:
+        rgba(3,6,12,.65);
+
+    border:
+        1px solid rgba(255,255,255,.2);
+
+    cursor:pointer;
+
+    font-size:12px;
+
+    letter-spacing:2px;
+
+    transition:.25s;
+}
+
+.era:hover,
+.era.active{
+    background:
+        rgba(255,255,255,.14);
+}
+
+/* =========================================================
+   INFO
+========================================================= */
+
+#info{
+    position:absolute;
+
+    left:50%;
+    bottom:9%;
+
+    transform:
+        translateX(-50%)
+        translateY(20px);
+
+    width:
+        min(620px,88vw);
+
+    padding:
+        18px 23px;
+
+    background:
+        rgba(3,6,12,.76);
+
+    border:
+        1px solid rgba(255,255,255,.17);
+
+    backdrop-filter:
+        blur(13px);
+
+    text-align:center;
+
+    opacity:0;
+
+    transition:
+        .4s;
+
+    pointer-events:none;
+}
+
+#info.show{
+    opacity:1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+
+#info h2{
+    margin-bottom:8px;
+
+    letter-spacing:3px;
+}
+
+#info p{
+    font-family:Arial,sans-serif;
+
+    color:#ccc;
+
+    font-size:13px;
+
+    line-height:1.6;
+}
+
+/* =========================================================
+   SIEGE HUD
+========================================================= */
+
+#siegeHUD{
+    position:absolute;
+
+    top:18%;
+
+    right:4%;
+
+    width:260px;
+
+    padding:15px;
+
+    background:
+        rgba(40,5,5,.68);
+
+    border:
+        1px solid rgba(255,100,70,.35);
+
+    backdrop-filter:
+        blur(10px);
+
+    opacity:0;
+
+    transition:opacity 1s;
+}
+
+#world.siege #siegeHUD{
+    opacity:1;
+}
+
+#siegeHUD h3{
+    color:#ff9a72;
+
+    letter-spacing:3px;
+
+    margin-bottom:8px;
+}
+
+.objective{
+    font-family:Arial,sans-serif;
+
+    font-size:12px;
+
+    line-height:1.7;
+
+    color:#ddd;
+}
+
+/* =========================================================
+   MINIMAP
+========================================================= */
+
+.minimap{
+    position:absolute;
+
+    right:4%;
+    bottom:5%;
+
+    width:180px;
+    height:105px;
+
+    background:
+        rgba(2,5,10,.67);
+
+    border:
+        1px solid rgba(255,255,255,.2);
+
+    backdrop-filter:
+        blur(8px);
+
+    overflow:hidden;
+}
+
+.mapSea{
+    position:absolute;
+
+    right:0;
+
+    width:35%;
+    height:100%;
+
+    background:#0a1b2c;
+}
+
+.mapLand{
+    position:absolute;
+
+    left:5%;
+    top:12%;
+
+    width:62%;
+    height:75%;
+
+    background:#25242a;
+
+    clip-path:
+        polygon(
+            0 20%,
+            80% 0,
+            100% 20%,
+            90% 70%,
+            60% 100%,
+            10% 85%
+        );
+}
+
+.mapDot{
+    position:absolute;
+
+    width:5px;
+    height:5px;
+
+    border-radius:50%;
+
+    background:#f4c36b;
+
+    box-shadow:
+        0 0 8px #f4c36b;
+}
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+#intro{
+    position:fixed;
+
+    inset:0;
+
+    z-index:1000;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    flex-direction:column;
+
+    background:#020308;
+
+    animation:
+        introOut 4s forwards;
+
+ 
