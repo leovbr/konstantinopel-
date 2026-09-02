@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CONSTANTINOPLE — THE LAST CITY</title>
 
 <style>
@@ -17,17 +17,13 @@ html,body{
     height:100%;
     overflow:hidden;
     background:#020308;
-    color:#fff;
+    color:white;
     font-family:Georgia,"Times New Roman",serif;
 }
 
 button{
     font:inherit;
 }
-
-/* =========================================================
-   WORLD
-========================================================= */
 
 #world{
     position:relative;
@@ -37,12 +33,11 @@ button{
 
     --mx:0;
     --my:0;
-    --zoom:1;
 
-    --sky1:#101d38;
-    --sky2:#375879;
-    --sky3:#c17b5d;
-    --sky4:#111018;
+    --sky1:#21152e;
+    --sky2:#783c5b;
+    --sky3:#df774a;
+    --sky4:#160d15;
 
     background:
         linear-gradient(
@@ -57,6 +52,10 @@ button{
         background 2s ease,
         filter 1s ease;
 }
+
+/* =========================
+   TIME
+========================= */
 
 #world.dawn{
     --sky1:#20213f;
@@ -86,9 +85,9 @@ button{
     --sky4:#030409;
 }
 
-/* =========================================================
+/* =========================
    CAMERA
-========================================================= */
+========================= */
 
 #camera{
     position:absolute;
@@ -99,21 +98,17 @@ button{
             calc(var(--mx) * -28px),
             calc(var(--my) * -18px),
             0
-        )
-        scale(var(--zoom));
-
-    transform-origin:center;
+        );
 
     transition:transform .12s ease-out;
 }
 
-/* =========================================================
+/* =========================
    SUN
-========================================================= */
+========================= */
 
 .sun{
     position:absolute;
-
     width:145px;
     height:145px;
 
@@ -139,9 +134,9 @@ button{
     transform:translateY(120px);
 }
 
-/* =========================================================
+/* =========================
    MOON
-========================================================= */
+========================= */
 
 .moon{
     position:absolute;
@@ -185,14 +180,13 @@ button{
     opacity:1;
 }
 
-/* =========================================================
+/* =========================
    STARS
-========================================================= */
+========================= */
 
 #stars{
     position:absolute;
     inset:0;
-
     pointer-events:none;
 }
 
@@ -228,9 +222,9 @@ button{
     }
 }
 
-/* =========================================================
+/* =========================
    CLOUDS
-========================================================= */
+========================= */
 
 .cloud{
     position:absolute;
@@ -299,9 +293,9 @@ button{
     }
 }
 
-/* =========================================================
+/* =========================
    BIRDS
-========================================================= */
+========================= */
 
 .bird{
     position:absolute;
@@ -357,9 +351,9 @@ button{
     }
 }
 
-/* =========================================================
+/* =========================
    DISTANT CITY
-========================================================= */
+========================= */
 
 .distantCity{
     position:absolute;
@@ -370,7 +364,6 @@ button{
     height:20%;
 
     display:flex;
-
     align-items:flex-end;
 
     gap:8px;
@@ -406,9 +399,9 @@ button{
 .distBuilding:nth-child(11){height:48%}
 .distBuilding:nth-child(12){height:68%}
 
-/* =========================================================
+/* =========================
    HAGIA SOPHIA
-========================================================= */
+========================= */
 
 .hagia{
     position:absolute;
@@ -540,9 +533,9 @@ button{
         -25px 0 #efb65d;
 }
 
-/* =========================================================
+/* =========================
    WALL
-========================================================= */
+========================= */
 
 .wall{
     position:absolute;
@@ -586,6 +579,8 @@ button{
 
     border:
         7px solid #111017;
+
+    cursor:pointer;
 }
 
 .wallGate:before{
@@ -646,9 +641,9 @@ button{
 .towerE{right:20%}
 .towerF{right:5%}
 
-/* =========================================================
+/* =========================
    TORCHES
-========================================================= */
+========================= */
 
 .torch{
     position:absolute;
@@ -695,9 +690,9 @@ button{
     }
 }
 
-/* =========================================================
+/* =========================
    GOLDEN HORN
-========================================================= */
+========================= */
 
 .sea{
     position:absolute;
@@ -744,9 +739,9 @@ button{
     }
 }
 
-/* =========================================================
+/* =========================
    SHIPS
-========================================================= */
+========================= */
 
 .ship{
     position:absolute;
@@ -810,7 +805,6 @@ button{
 
 .ship2{
     bottom:21%;
-
     transform:scale(.7);
 
     animation-duration:45s;
@@ -827,9 +821,9 @@ button{
     }
 }
 
-/* =========================================================
-   OTTOMAN SHIPS — SIEGE
-========================================================= */
+/* =========================
+   OTTOMAN SHIPS
+========================= */
 
 .ottomanShip{
     position:absolute;
@@ -908,9 +902,9 @@ button{
     }
 }
 
-/* =========================================================
+/* =========================
    FOG
-========================================================= */
+========================= */
 
 .fog{
     position:absolute;
@@ -944,9 +938,9 @@ button{
     }
 }
 
-/* =========================================================
+/* =========================
    PARTICLES
-========================================================= */
+========================= */
 
 #particles{
     position:absolute;
@@ -985,9 +979,9 @@ button{
     }
 }
 
-/* =========================================================
+/* =========================
    SIEGE
-========================================================= */
+========================= */
 
 #siegeOverlay{
     position:absolute;
@@ -1033,6 +1027,8 @@ button{
 
     animation:
         siegeFlame .3s infinite alternate;
+
+    z-index:60;
 }
 
 #world.siege .siegeFire{
@@ -1063,6 +1059,8 @@ button{
     filter:blur(12px);
 
     opacity:0;
+
+    z-index:59;
 }
 
 #world.siege .smoke{
@@ -1090,9 +1088,9 @@ button{
     }
 }
 
-/* =========================================================
+/* =========================
    HUD
-========================================================= */
+========================= */
 
 .hud{
     position:absolute;
@@ -1144,9 +1142,9 @@ button{
     opacity:.7;
 }
 
-/* =========================================================
-   TOP RIGHT
-========================================================= */
+/* =========================
+   CONTROLS
+========================= */
 
 .controls{
     position:absolute;
@@ -1194,9 +1192,9 @@ button{
         translateY(-2px);
 }
 
-/* =========================================================
+/* =========================
    TIMELINE
-========================================================= */
+========================= */
 
 .timeline{
     position:absolute;
@@ -1213,6 +1211,8 @@ button{
 
 .era{
     padding:8px 13px;
+
+    color:#fff;
 
     background:
         rgba(3,6,12,.65);
@@ -1235,9 +1235,9 @@ button{
         rgba(255,255,255,.14);
 }
 
-/* =========================================================
+/* =========================
    INFO
-========================================================= */
+========================= */
 
 #info{
     position:absolute;
@@ -1268,8 +1268,7 @@ button{
 
     opacity:0;
 
-    transition:
-        .4s;
+    transition:.4s;
 
     pointer-events:none;
 }
@@ -1298,15 +1297,14 @@ button{
     line-height:1.6;
 }
 
-/* =========================================================
+/* =========================
    SIEGE HUD
-========================================================= */
+========================= */
 
 #siegeHUD{
     position:absolute;
 
     top:18%;
-
     right:4%;
 
     width:260px;
@@ -1349,9 +1347,9 @@ button{
     color:#ddd;
 }
 
-/* =========================================================
+/* =========================
    MINIMAP
-========================================================= */
+========================= */
 
 .minimap{
     position:absolute;
@@ -1421,9 +1419,9 @@ button{
         0 0 8px #f4c36b;
 }
 
-/* =========================================================
+/* =========================
    INTRO
-========================================================= */
+========================= */
 
 #intro{
     position:fixed;
@@ -1442,6 +1440,126 @@ button{
     background:#020308;
 
     animation:
-        introOut 4s forwards;
+        introOut 3.5s forwards;
 
+    pointer-events:none;
+}
+
+#intro .introKicker{
+    font-size:11px;
+    letter-spacing:8px;
+    opacity:.65;
+    margin-bottom:16px;
+}
+
+#intro h2{
+    font-size:
+        clamp(30px,7vw,74px);
+
+    letter-spacing:8px;
+
+    text-align:center;
+
+    line-height:1;
+}
+
+#intro p{
+    margin-top:14px;
+
+    font-family:Arial,sans-serif;
+
+    letter-spacing:4px;
+
+    font-size:11px;
+
+    opacity:.55;
+}
+
+.introLine{
+    width:min(420px,70vw);
+
+    height:1px;
+
+    margin-top:28px;
+
+    background:
+        rgba(255,255,255,.28);
+
+    transform-origin:left;
+
+    animation:
+        introLine 2.2s ease forwards;
+}
+
+@keyframes introLine{
+    from{
+        transform:scaleX(0);
+    }
+
+    to{
+        transform:scaleX(1);
+    }
+}
+
+@keyframes introOut{
+    0%,70%{
+        opacity:1;
+        visibility:visible;
+    }
+
+    100%{
+        opacity:0;
+        visibility:hidden;
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+    .title{
+        top:5%;
+        left:4%;
+    }
+
+    .title h1{
+        font-size:
+            clamp(31px,12vw,58px);
+
+        letter-spacing:4px;
+    }
+
+    .title p{
+        font-size:9px;
+        letter-spacing:3px;
+    }
+
+    .title small{
+        letter-spacing:4px;
+        font-size:8px;
+    }
+
+    .controls{
+        top:4%;
+        right:3%;
+
+        max-width:55vw;
+    }
+
+    .btn{
+        padding:7px 8px;
+        font-size:10px;
+    }
+
+    .timeline{
+        left:3%;
+        bottom:3%;
+        gap:4px;
+    }
+
+    .era{
+        padding:7px 8px;
+        font-size:9px;
  
